@@ -1,5 +1,7 @@
 package nuber.students;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * 
  * Booking represents the overall "job" for a passenger getting to their destination.
@@ -19,8 +21,14 @@ package nuber.students;
  *
  */
 public class Booking {
+	
+	static AtomicInteger globalJobID = new AtomicInteger(0);
+	
+	private int jobID;
+	private NuberDispatch dispatch;
+	private Passenger passenger;
+	private Driver driver;
 
-		
 	/**
 	 * Creates a new booking for a given Nuber dispatch and passenger, noting that no
 	 * driver is provided as it will depend on whether one is available when the region 
@@ -31,7 +39,9 @@ public class Booking {
 	 */
 	public Booking(NuberDispatch dispatch, Passenger passenger)
 	{
-		
+		this.jobID = globalJobID.incrementAndGet();
+		this.dispatch = dispatch;
+		this.passenger = passenger;
 	}
 	
 	/**
@@ -52,7 +62,6 @@ public class Booking {
 	 */
 	public BookingResult call() {
 		
-		
 		return 
 	}
 	
@@ -69,6 +78,13 @@ public class Booking {
 	@Override
 	public String toString()
 	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(jobID)
+					 .append(",")
+					 .append(driver == null ? "null" : driver.name)
+					 .append(",")
+					 .append(passenger == null ? "null" : passenger.name);
+		return stringBuilder.toString();
 	}
 
 }

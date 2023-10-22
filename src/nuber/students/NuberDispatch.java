@@ -1,6 +1,7 @@
 package nuber.students;
 
 import java.util.HashMap;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Future;
 
 /**
@@ -15,7 +16,8 @@ public class NuberDispatch {
 	 * The maximum number of idle drivers that can be awaiting a booking 
 	 */
 	private final int MAX_DRIVERS = 999;
-	
+	private HashMap<String, Integer> regionInfo;
+	private ArrayBlockingQueue<Driver> driverQueue = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	private boolean logEvents = false;
 	
 	/**
@@ -27,6 +29,8 @@ public class NuberDispatch {
 	 */
 	public NuberDispatch(HashMap<String, Integer> regionInfo, boolean logEvents)
 	{
+		this.regionInfo = regionInfo;
+		this.logEvents = logEvents;
 	}
 	
 	/**
@@ -39,6 +43,7 @@ public class NuberDispatch {
 	 */
 	public boolean addDriver(Driver newDriver)
 	{
+		return driverQueue.add(newDriver);
 	}
 	
 	/**
@@ -50,6 +55,7 @@ public class NuberDispatch {
 	 */
 	public Driver getDriver()
 	{
+		return driverQueue.remove();
 	}
 
 	/**
@@ -80,6 +86,7 @@ public class NuberDispatch {
 	 * @return returns a Future<BookingResult> object
 	 */
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
+		
 	}
 
 	/**
@@ -91,12 +98,14 @@ public class NuberDispatch {
 	 */
 	public int getBookingsAwaitingDriver()
 	{
+		
 	}
 	
 	/**
 	 * Tells all regions to finish existing bookings already allocated, and stop accepting new bookings
 	 */
 	public void shutdown() {
+		
 	}
 
 }
