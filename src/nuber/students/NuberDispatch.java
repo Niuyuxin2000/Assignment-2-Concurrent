@@ -3,6 +3,7 @@ package nuber.students;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The core Dispatch class that instantiates and manages everything for Nuber
@@ -19,6 +20,7 @@ public class NuberDispatch {
 	private HashMap<String, Integer> regionInfo;
 	private ArrayBlockingQueue<Driver> driverQueue = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	private boolean logEvents = false;
+	private AtomicInteger bookingsAwaitingDriver = new AtomicInteger(0);
 	
 	/**
 	 * Creates a new dispatch objects and instantiates the required regions and any other objects required.
@@ -55,7 +57,15 @@ public class NuberDispatch {
 	 */
 	public Driver getDriver()
 	{
-		return driverQueue.remove();
+		Driver driver = null;
+		bookingsAwaitingDriver.incrementAndGet();
+		try {
+			driver = driverQueue.take();
+		} catch (InterruptedException e) {
+			System.out.println(e);
+		}
+		bookingsAwaitingDriver.decrementAndGet();
+		return driver;
 	}
 
 	/**
@@ -98,7 +108,7 @@ public class NuberDispatch {
 	 */
 	public int getBookingsAwaitingDriver()
 	{
-		
+		return bookingsAwaitingDriver.get();
 	}
 	
 	/**
