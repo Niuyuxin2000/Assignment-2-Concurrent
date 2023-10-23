@@ -17,7 +17,7 @@ public class NuberDispatch {
 	 * The maximum number of idle drivers that can be awaiting a booking 
 	 */
 	private final int MAX_DRIVERS = 999;
-	private HashMap<String, Integer> regionInfo;
+	private HashMap<String, NuberRegion> regionHashMap;
 	private ArrayBlockingQueue<Driver> driverQueue = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	private boolean logEvents = false;
 	private AtomicInteger bookingsAwaitingDriver = new AtomicInteger(0);
@@ -31,7 +31,10 @@ public class NuberDispatch {
 	 */
 	public NuberDispatch(HashMap<String, Integer> regionInfo, boolean logEvents)
 	{
-		this.regionInfo = regionInfo;
+		regionInfo.forEach((key, value) -> {
+			NuberRegion region = new NuberRegion(this, key, value);
+			regionHashMap.put(key, region);
+		});
 		this.logEvents = logEvents;
 	}
 	
@@ -115,7 +118,9 @@ public class NuberDispatch {
 	 * Tells all regions to finish existing bookings already allocated, and stop accepting new bookings
 	 */
 	public void shutdown() {
-		
+		for (NuberRegion region : regionHashMap.values()) {
+			region.shutdown();
+		}
 	}
 
 }

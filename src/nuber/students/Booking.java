@@ -61,10 +61,11 @@ public class Booking {
 	 * @return A BookingResult containing the final information about the booking 
 	 */
 	public BookingResult call() {
-		//step 1
+		//step 1 & 2
 		dispatch.logEvent(this, "start, ask for driver");
 		driver = dispatch.getDriver();
 		
+		//
 		
 		return 
 	}

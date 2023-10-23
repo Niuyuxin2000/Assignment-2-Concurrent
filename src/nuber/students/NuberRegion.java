@@ -1,6 +1,6 @@
 package nuber.students;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -53,8 +53,21 @@ public class NuberRegion {
 	 */
 	public Future<BookingResult> bookPassenger(Passenger waitingPassenger)
 	{		
+		if (shutdown) {
+			System.out.println("region" + regionName + ": is shutdown, reject the booking of " + waitingPassenger.name);
+			return null;
+		}
 		Booking booking = new Booking(dispatch, waitingPassenger);
-		dispatch.logEvent(booking, "is created in region: " + regionName);
+		dispatch.logEvent(booking, "is created in region " + regionName);
+		Callable<BookingResult> callableTaskCallable = new Callable<BookingResult>() {
+			@Override
+			public BookingResult call() throws Exception {
+				BookingResult result = booking.call();
+				dispatch.logEvent(booking, "commence in region " + regionName);
+				return result;
+			}
+		};
+		return executor.submit(callableTaskCallable);
 	}
 	
 	/**
@@ -62,6 +75,8 @@ public class NuberRegion {
 	 */
 	public void shutdown()
 	{
+		shutdown = true;
+		executor.shutdown();
 	}
 		
 }
