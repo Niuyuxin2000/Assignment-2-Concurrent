@@ -63,7 +63,7 @@ public class NuberRegion {
 			@Override
 			public BookingResult call() throws Exception {
 				BookingResult result = booking.call();
-				dispatch.logEvent(booking, "commences in region " + regionName);
+				dispatch.logEvent(booking, "finished in region " + regionName);
 				return result;
 			}
 		};

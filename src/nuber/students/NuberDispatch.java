@@ -17,7 +17,7 @@ public class NuberDispatch {
 	 * The maximum number of idle drivers that can be awaiting a booking 
 	 */
 	private final int MAX_DRIVERS = 999;
-	private HashMap<String, NuberRegion> regionHashMap;
+	private HashMap<String, NuberRegion> regionHashMap = new HashMap<String, NuberRegion>();
 	private ArrayBlockingQueue<Driver> driverQueue = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	private boolean logEvents = false;
 	private AtomicInteger bookingsAwaitingDriver = new AtomicInteger(0);
