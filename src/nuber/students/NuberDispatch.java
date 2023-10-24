@@ -99,7 +99,8 @@ public class NuberDispatch {
 	 * @return returns a Future<BookingResult> object
 	 */
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
-		
+		NuberRegion nuberRegion = regionHashMap.get(region);
+		return nuberRegion.bookPassenger(passenger);
 	}
 
 	/**
@@ -118,7 +119,7 @@ public class NuberDispatch {
 	 * Tells all regions to finish existing bookings already allocated, and stop accepting new bookings
 	 */
 	public void shutdown() {
-		for (NuberRegion region : regionHashMap.values()) {
+		for (var region : regionHashMap.values()) {
 			region.shutdown();
 		}
 	}

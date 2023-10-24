@@ -54,7 +54,7 @@ public class NuberRegion {
 	public Future<BookingResult> bookPassenger(Passenger waitingPassenger)
 	{		
 		if (shutdown) {
-			System.out.println("region" + regionName + ": is shutdown, reject the booking of " + waitingPassenger.name);
+			System.out.println("region" + regionName + ": is shutdown, rejects the booking of " + waitingPassenger.name);
 			return null;
 		}
 		Booking booking = new Booking(dispatch, waitingPassenger);
@@ -63,7 +63,7 @@ public class NuberRegion {
 			@Override
 			public BookingResult call() throws Exception {
 				BookingResult result = booking.call();
-				dispatch.logEvent(booking, "commence in region " + regionName);
+				dispatch.logEvent(booking, "commences in region " + regionName);
 				return result;
 			}
 		};

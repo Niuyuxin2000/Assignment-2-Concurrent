@@ -54,20 +54,45 @@ public class Booking {
 	 * 4.	It must then call the Driver.driveToDestination() function, with the thread pausing 
 	 * 			whilst as function is called.
 	 * 5.	Once at the destination, the time is recorded, so we know the total trip duration. 
-	 * 6.	The driver, now free, is added back into Dispatch�s list of available drivers. 
+	 * 6.	The driver, now free, is added back into Dispatches list of available drivers. 
 	 * 7.	The call() function the returns a BookingResult object, passing in the appropriate 
 	 * 			information required in the BookingResult constructor.
 	 *
 	 * @return A BookingResult containing the final information about the booking 
 	 */
 	public BookingResult call() {
-		//step 1 & 2
-		dispatch.logEvent(this, "start, ask for driver");
+		// step 1 & 2
+		dispatch.logEvent(this, "starts, asks for driver");
 		driver = dispatch.getDriver();
+		dispatch.logEvent(this, "has a driver");
 		
-		//
 		
-		return 
+		long startTime = System.currentTimeMillis();
+		long duration = 0;
+		try {
+			// step 3
+			dispatch.logEvent(this, "is picking up passenger");
+			driver.pickUpPassenger(passenger);
+			dispatch.logEvent(this, "has picked up passenger");
+			
+			// step 4
+			dispatch.logEvent(this, "is traveling");
+			driver.driveToDestination();
+			
+			// step 5
+			long endTime = System.currentTimeMillis();
+			duration = endTime - startTime;
+			dispatch.logEvent(this, "is at destiantion, using " + duration +" ms");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		// step 6
+		dispatch.logEvent(this, "driver finished task and is idle now");
+		dispatch.addDriver(driver);
+		
+		// step 7
+		return new BookingResult(jobID, passenger, driver, duration);
 	}
 	
 	/***
