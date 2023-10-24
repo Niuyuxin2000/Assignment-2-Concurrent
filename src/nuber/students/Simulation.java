@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Future;
 
 public class Simulation {
@@ -16,7 +15,7 @@ public class Simulation {
 	 * @param regions The region names and maximum simultaneous active bookings allowed in that region
 	 * @param maxDrivers The number of drivers to create
 	 * @param maxPassengers The number of passengers to create
-	 * @param maxSleep The maximum amount a thread will sleep (in millseconds)) to simulate driving to, or dropping off a passenger
+	 * @param maxSleep The maximum amount a thread will sleep (in milliseconds)) to simulate driving to, or dropping off a passenger
 	 * @param logEvents Whether to log booking events to the console
 	 * @throws Exception
 	 */
@@ -83,7 +82,7 @@ public class Simulation {
 			}
 
 			//print status update
-			System.out.println("Active bookings: " + bookings.size()+", pending: "+dispatch.getBookingsAwaitingDriver());
+			System.out.println("Active bookings: " + bookings.size() + ", pending: " + dispatch.getBookingsAwaitingDriver());
 
 			//sleep for 1s and then print out the current bookings
 			try {
@@ -95,6 +94,6 @@ public class Simulation {
 
 		//print out the final information for the simulation run
 		long totalTime = new Date().getTime() - start;
-		System.out.println("Simulation complete in "+totalTime+"ms");
+		System.out.println("Simulation complete in " + totalTime + "ms");
 	}
 }

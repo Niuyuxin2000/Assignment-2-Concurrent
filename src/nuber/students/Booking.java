@@ -1,5 +1,6 @@
 package nuber.students;
 
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -67,7 +68,7 @@ public class Booking {
 		dispatch.logEvent(this, "has a driver");
 		
 		
-		long startTime = System.currentTimeMillis();
+		long startTime = new Date().getTime();
 		long duration = 0;
 		try {
 			// step 3
@@ -82,7 +83,7 @@ public class Booking {
 			// step 5
 			long endTime = System.currentTimeMillis();
 			duration = endTime - startTime;
-			dispatch.logEvent(this, "is at destiantion, using " + duration +" ms");
+			dispatch.logEvent(this, "is at destination, using " + duration + " ms");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -110,10 +111,11 @@ public class Booking {
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(jobID)
-					 .append(",")
+					 .append(":")
 					 .append(driver == null ? "null" : driver.name)
-					 .append(",")
-					 .append(passenger == null ? "null" : passenger.name);
+					 .append(":")
+					 .append(passenger == null ? "null" : passenger.name)
+					 .append(": ");
 		return stringBuilder.toString();
 	}
 

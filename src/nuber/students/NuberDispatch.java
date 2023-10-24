@@ -20,6 +20,7 @@ public class NuberDispatch {
 	private HashMap<String, NuberRegion> regionHashMap = new HashMap<String, NuberRegion>();
 	private ArrayBlockingQueue<Driver> driverQueue = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	private boolean logEvents = false;
+	private boolean shutdown = false;
 	private AtomicInteger bookingsAwaitingDriver = new AtomicInteger(0);
 	
 	/**
@@ -31,6 +32,8 @@ public class NuberDispatch {
 	 */
 	public NuberDispatch(HashMap<String, Integer> regionInfo, boolean logEvents)
 	{
+		System.out.println("Creating Nuber Dispatch");
+		System.out.println("Creating " + regionInfo.size() + " regions");
 		regionInfo.forEach((key, value) -> {
 			NuberRegion region = new NuberRegion(this, key, value);
 			regionHashMap.put(key, region);
@@ -83,6 +86,7 @@ public class NuberDispatch {
 		
 		if (!logEvents) return;
 		
+		// with debug out
 		System.out.println(booking + ": " + message);
 		
 	}
@@ -99,6 +103,9 @@ public class NuberDispatch {
 	 * @return returns a Future<BookingResult> object
 	 */
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
+		if (shutdown) {
+			return null;
+		}
 		NuberRegion nuberRegion = regionHashMap.get(region);
 		return nuberRegion.bookPassenger(passenger);
 	}
@@ -122,6 +129,7 @@ public class NuberDispatch {
 		for (var region : regionHashMap.values()) {
 			region.shutdown();
 		}
+		shutdown = true;
 	}
 
 }

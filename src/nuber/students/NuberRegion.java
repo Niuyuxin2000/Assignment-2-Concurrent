@@ -38,6 +38,7 @@ public class NuberRegion {
 		this.dispatch = dispatch;
 		this.regionName = regionName;
 		executor = Executors.newFixedThreadPool(maxSimultaneousJobs);
+		System.out.println("Creating Nuber region for " + regionName);
 	}
 	
 	/**
@@ -77,6 +78,7 @@ public class NuberRegion {
 	{
 		shutdown = true;
 		executor.shutdown();
+		//System.out.println("Region " + regionName + " is shutdown");
 	}
 		
 }
