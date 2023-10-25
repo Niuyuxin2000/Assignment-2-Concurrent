@@ -38,6 +38,7 @@ public class NuberDispatch {
 			NuberRegion region = new NuberRegion(this, key, value);
 			regionHashMap.put(key, region);
 		});
+		System.out.println("Down creating " + regionHashMap.size() + "regions");
 		this.logEvents = logEvents;
 	}
 	

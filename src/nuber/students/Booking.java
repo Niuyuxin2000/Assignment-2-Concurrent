@@ -114,8 +114,7 @@ public class Booking {
 					 .append(":")
 					 .append(driver == null ? "null" : driver.name)
 					 .append(":")
-					 .append(passenger == null ? "null" : passenger.name)
-					 .append(": ");
+					 .append(passenger == null ? "null" : passenger.name);
 		return stringBuilder.toString();
 	}
 
